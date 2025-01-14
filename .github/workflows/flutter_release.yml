@@ -22,7 +22,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.13.0'
+          flutter-version: '3.27.2'
           channel: 'stable'
 
       - run: flutter pub get
@@ -57,11 +57,16 @@ jobs:
     steps:
       - uses: actions/download-artifact@v3
         with:
-          name: ${{ matrix.platform }}-release
+          path: release/
+
+      - run: |
+          VERSION=$(date +'%Y.%m.%d-%H%M')
+          echo "Creating release version $VERSION"
 
       - uses: softprops/action-gh-release@v1
         with:
-          files: |
-            release/*
+          files: release/*
+          tag_name: ${{ github.run_number }}
+          release_name: "Release ${{ github.run_number }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
