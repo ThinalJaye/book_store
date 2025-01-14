@@ -10,73 +10,45 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      # Set up Java 17
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '11'
+          java-version: '17'
+
+      # Install Android SDK
+      - name: Set up Android SDK
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            unzip \
+            openjdk-17-jdk \
+            lib32z1 lib32ncurses6 lib32stdc++6 \
+            lib32gcc1 lib32ncurses5 lib32tinfo5
+
+          
+      # Set up Flutter
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.27.2'
           channel: 'stable'
+
+      # Install dependencies
       - run: flutter pub get
+
+      # Build APK
+      - run: flutter clean
       - run: flutter build apk --release
+
+      # Upload artifact
       - uses: actions/upload-artifact@v3
         with:
           name: android-release
           path: build/app/outputs/flutter-apk/app-release.apk
 
-  build-and-release-ios:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.27.2'
-          channel: 'stable'
-      - run: flutter pub get
-      - run: flutter build ios --release --no-codesign
-      - uses: actions/upload-artifact@v3
-        with:
-          name: ios-release
-          path: build/ios/iphoneos
-
-  build-and-release-linux:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.27.2'
-          channel: 'stable'
-      - run: |
-          sudo apt-get update
-          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev
-      - run: flutter config --enable-linux-desktop
-      - run: flutter pub get
-      - run: flutter build linux --release
-      - uses: actions/upload-artifact@v3
-        with:
-          name: linux-release
-          path: build/linux/x64/release/bundle
-
-  build-and-release-windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.27.2'
-          channel: 'stable'
-      - run: flutter config --enable-windows-desktop
-      - run: flutter pub get
-      - run: flutter build windows --release
-      - uses: actions/upload-artifact@v3
-        with:
-          name: windows-release
-          path: build/windows/runner/Release
-
   create-release:
-    needs: [build-and-release-android, build-and-release-ios, build-and-release-linux, build-and-release-windows]
+    needs: [build-and-release-android]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
