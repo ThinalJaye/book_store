@@ -63,15 +63,20 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: android-release
+          path: android-release
 
       - uses: actions/download-artifact@v3
         with:
           name: windows-release
+          path: windows-release
+
+      - name: List downloaded files
+        run: |
+          ls -R android-release
+          ls -R windows-release
 
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: |
-            android-release/app-release.apk
-            windows-release/*.exe
+          artifacts: "android-release/app-release.apk,windows-release/*.exe"
           token: ${{ secrets.GITHUB_TOKEN }}
 
