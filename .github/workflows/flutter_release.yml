@@ -11,25 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # Set up Java 17
+      # Set up Java 17 for Android build
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '17'
-
-      # Install Android SDK dependencies
-      - name: Install Android SDK Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            unzip \
-            openjdk-17-jdk \
-            lib32z1 \
-            lib32ncurses6 \
-            lib32stdc++6 \
-            lib32gcc-s1
-
-          
 
       # Set up Flutter
       - uses: subosito/flutter-action@v2
@@ -37,10 +23,8 @@ jobs:
           flutter-version: '3.27.2'
           channel: 'stable'
 
-      # Install Flutter dependencies
+      # Install dependencies and build Android APK
       - run: flutter pub get
-
-      # Clean and build APK
       - run: flutter clean
       - run: flutter build apk --release
 
@@ -50,22 +34,47 @@ jobs:
           name: android-release
           path: build/app/outputs/flutter-apk/app-release.apk
 
+  build-and-release-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # Set up Flutter for Windows
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.2'
+          channel: 'stable'
+
+      # Install dependencies and build Windows EXE
+      - run: flutter pub get
+      - run: flutter clean
+      - run: flutter build windows --release
+
+      # Upload the Windows artifact
+      - uses: actions/upload-artifact@v3
+        with:
+          name: windows-release
+          path: build/windows/runner/Release
+
   create-release:
-    needs: [build-and-release-android]
+    needs: [build-and-release-android, build-and-release-windows]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
         with:
+          name: android-release
           path: release/
 
-      - run: |
-          VERSION=$(date +'%Y.%m.%d-%H%M')
-          echo "Creating release version $VERSION"
+      - uses: actions/download-artifact@v3
+        with:
+          name: windows-release
+          path: release/
 
+      # Create a GitHub Release with the APK and EXE files
       - uses: softprops/action-gh-release@v1
         with:
-          files: release/*
-          tag_name: ${{ github.run_number }}
-          release_name: "Release ${{ github.run_number }}"
+          files: |
+            release/app-release.apk
+            release/*.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
