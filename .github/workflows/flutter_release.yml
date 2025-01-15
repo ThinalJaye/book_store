@@ -54,27 +54,24 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: windows-release
-          path: build/windows/runner/Release
+          path: build/windows/runner/Release/*.exe
 
   create-release:
     needs: [build-and-release-android, build-and-release-windows]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v2
         with:
           name: android-release
-          path: release/
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v2
         with:
           name: windows-release
-          path: release/
 
-      # Create a GitHub Release with the APK and EXE files
-      - uses: softprops/action-gh-release@v1
+      - uses: ncipollo/release-action@v1
         with:
-          files: |
-            release/app-release.apk
-            release/*.exe
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: |
+            android-release/app-release.apk
+            windows-release/*.exe
+          token: ${{ secrets.GITHUB_TOKEN }}
+
