@@ -52,14 +52,14 @@ class AppDrawer extends StatelessWidget {
               Get.toNamed('/favorites');
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.shopping_cart),
-            title: const Text('Cart'),
-            onTap: () {
-              Get.back();
-              Get.toNamed('/cart');
-            },
-          ),
+          // ListTile(
+          //   leading: const Icon(Icons.shopping_cart),
+          //   title: const Text('Cart'),
+          //   onTap: () {
+          //     Get.back();
+          //     Get.toNamed('/cart');
+          //   },
+          // ),
         ],
       ),
     );
