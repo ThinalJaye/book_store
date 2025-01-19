@@ -157,11 +157,12 @@ class _HomePageContentState extends State<_HomePageContent> {
       'description': 'This book covers advanced Android app development techniques and tools. Ideal for developers looking to extend their skills, it offers in-depth explanations on building robust, high-performance apps.',
     },
     {
-      'title': 'Game Programming Patterns',
-      'author': ' Robert Nystrom',
+      'title': 'Your Soul is a River',
+      'author': ' Nikita Gill',
       'price': '2,100',
-      'imageUrl': 'https://szafranek.net/files/news/20150401/game_programming_patterns.jpg',
-      'description': 'This book is a guide to reusable design patterns for game developers, covering game loops, state machines, and component-based design to create efficient, maintainable game architectures.',
+      'imageUrl': 'https://images.unsplash.com/photo-1511108690759-009324a90311?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGJvb2slMjBjb3ZlcnxlbnwwfHwwfHx8MA%3D%3D',
+      'description': 'Your Soul is a River is a collection of poetry and prose that delves into themes of healing, self-discovery, and emotional growth. Nikita Gill uses celestial and natural imagery to explore the depths of human experience, touching on love, loss, resilience, and hope. The book encourages readers to embrace their inner strength and find beauty in their journey of transformation.',
+
     },
     {
       'title': 'JavaScript for Web Designers',
@@ -171,18 +172,18 @@ class _HomePageContentState extends State<_HomePageContent> {
       'description': '"JavaScript for Web Designers" by Mat Marquis simplifies JavaScript for designers, focusing on key concepts to enhance web user experiences.',
     },
     {
-      'title': 'Pro JavaFX 8',
+      'title': 'The Two Towers',
       'author': 'James L. Weaver',
       'price': '3,500',
       'imageUrl': 'https://images.unsplash.com/photo-1621351183012-e2f9972dd9bf?ixlib=rb-4.0.3',
-      'description': 'Ideal for developers building Java applications with graphical user interfaces, this book delves into JavaFX for creating desktop, mobile, and embedded applications.',
+      'description': 'The Two Towers is the second book in J.R.R. Tolkiens epic fantasy trilogy, The Lord of the Rings. It continues the journey of the Fellowship of the Ring as they face challenges in their quest to destroy the One Ring. The story is filled with adventure, battles, and the struggle between good and evil, with memorable characters and richly imagined settings.',
     },
     {
-      'title': 'PhoneGap 4 Mobile Application Development',
-      'author': 'Tarek S. S.',
-      'price': '2,800',
+      'title': ' How Innovation Works',
+      'author': 'Matt Ridley',
+      'price': '3 708',
       'imageUrl': 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-4.0.3',
-      'description': 'This cookbook offers step-by-step solutions for building cross-platform mobile applications using PhoneGap. It provides practical recipes for implementing mobile app features across multiple platforms.',
+      'description': 'How Innovation Works by Matt Ridley reveals how innovation thrives through collaboration and freedom, transforming ideas into impactful solutions through incremental progress and human exchange.',
     },
   ];
 
